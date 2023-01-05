@@ -11,3 +11,29 @@
     background-color: rgb(33, 33, 149);
     color: white;
 }
+
+#metacontainer{
+    margin-right: 0;
+}
+
+@media screen and (max-width: 739px){
+    #metacontainer{
+        flex-direction: column;
+        align-items: center;
+        margin-bottom: 2%;
+    }
+
+    /* .LHS, .RHS{
+        align-items: center;
+    } */
+    
+    .weatherContainer{
+        flex-direction: column;
+        align-items: center;
+        margin-bottom: 2%;
+    }   
+
+    .card{
+        margin-top: 2%;
+    }
+}

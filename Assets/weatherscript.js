@@ -71,7 +71,7 @@ var generateWeather = function(lat, lon){
             //Date + Icon div
         var dateicon = document.createElement("div")
         dateicon.setAttribute("style", "width: 100% ; padding-bottom: 2%")
-        dateicon.classList.add("d-flex", "align-items-center")
+        dateicon.classList.add("align-items-center")
         weatherCardBodyBig.appendChild(dateicon)
 
             //Weather date element
