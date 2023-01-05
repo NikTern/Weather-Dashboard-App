@@ -1,0 +1,13 @@
+.LHS{
+    padding: 3%;
+}
+
+#searchinput, #searchbutton{
+    margin-top: 5%;
+    width: 100%;
+}
+
+.smallcard{
+    background-color: rgb(33, 33, 149);
+    color: white;
+}
