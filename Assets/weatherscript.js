@@ -1,13 +1,17 @@
-//On page load
-// generateHistory()
-
 //Event listener for city search
 var searchbtn = document.querySelector("#searchbutton")
 var searchinput = document.querySelector("#searchinput")
+var searchform = document.querySelector("#searchform")
+
+searchform.addEventListener("submit", function(event){
+    event.preventDefault()
+    getcoords(searchinput.value)
+    generateHistory()
+})
 
 searchbtn.addEventListener("click", function(event){
     event.preventDefault()
-    var coords = getcoords(searchinput.value)
+    getcoords(searchinput.value)
     generateHistory()
 })
 
@@ -60,7 +64,7 @@ var generateWeather = function(lat, lon){
             //Create card divs
         var weatherCardBig = document.createElement("div")
         weatherCardBig.classList.add("card", "BigWeather")
-        weatherCardBig.setAttribute("style", "margin-right: 3% ; margin-bottom: 2% ; margin-top: 2%")
+        weatherCardBig.setAttribute("style", " margin-bottom: 2% ; margin-top: 2%")
         RHS.appendChild(weatherCardBig)
 
         var weatherCardBodyBig = document.createElement("div")
@@ -162,10 +166,13 @@ var generateWeather = function(lat, lon){
             weatherCardBody.appendChild(weatherinfo)
         
             if (i === 39){
+                console.log("yebud")
+                console.log(data)
                 i = 41
             }
         }  
         saveCity(data.city.name)
+        generateHistory()
     })
     .catch(function(){
         console.log("bad input")
@@ -216,21 +223,71 @@ var generateHistory = function(){
 
     var historyEls = document.createElement("div")
     historyEls.id = "historyelements"
+    historyEls.setAttribute("style", "display: flex; flex-direction: column")
 
     var LHS = document.querySelector(".LHS")
     LHS.appendChild(historyEls)
 
-    //append new history elements
-    for (var i = 0; i < localStorage.length; ++i) {
-        // Get the i'th key from localStorage
-        var key = localStorage.key(i)
+    //CRAZYCODE
+        // retrieve the keys from localStorage
+        const keys = Object.keys(localStorage);
 
-        //Check if i'th key starts with 'SavedCity'
-        if (key.substring(0, 9) === "SavedCity"){
+        // filter the keys to only include "SavedCity" keys
+        const savedCityKeys = keys.filter(key => key.startsWith("SavedCity"));
+
+        // sort the keys in descending order by their numerical suffix
+        savedCityKeys.sort((a, b) => {
+        const aNum = Number(a.match(/\d+$/)[0]);
+        const bNum = Number(b.match(/\d+$/)[0]);
+        return bNum - aNum;
+        });
+
+        // retrieve the values from localStorage in the sorted order
+        const values = savedCityKeys.map(key => localStorage.getItem(key));
+
+    //GENERATE ELEMENTS
+        for (var i=0 ; i < values.length ; i++){
             var historicalEl = document.createElement("button")
-            historicalEl.textContent == localStorage[key]
+            historicalEl.setAttribute("style","width: 100% ; height: auto; margin-bottom: 0.5rem")
+            historicalEl.textContent = values[i]
+            if (historicalEl.textContent === "Paris 01 Louvre"){
+                historicalEl.textContent = "Palais-Royal"
+            }
 
-            historyEls.appendChild(historicalEl)
+            historicalEl.addEventListener("click", function(event){
+                event.preventDefault()
+                getcoords(this.textContent)
+                generateHistory()
+            })
+
+            historyEls.appendChild(historicalEl)            
         }
-    }
+    
+
+    //append new history elements
+    // for (var i = 0; i < localStorage.length; ++i) {
+    //     // Get the i'th key from localStorage
+    //     var key = localStorage.key(i)
+
+    //     //Check if i'th key starts with 'SavedCity'
+    //     if (key.substring(0, 9) === "SavedCity"){
+    //         var historicalEl = document.createElement("button")
+    //         historicalEl.setAttribute("style","width: 100% ; height: auto; margin-bottom: 0.5rem")
+    //         historicalEl.textContent = localStorage[key]
+    //         if (historicalEl.textContent === "Paris 01 Louvre"){
+    //             historicalEl.textContent = "Paris"
+    //         }
+
+    //         historicalEl.addEventListener("click", function(event){
+    //             event.preventDefault()
+    //             getcoords(this.textContent)
+    //             generateHistory()
+    //         })
+
+    //         historyEls.appendChild(historicalEl)
+    //     }
+    // }
 }
+
+//On page load
+generateHistory()

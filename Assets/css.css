@@ -21,19 +21,38 @@
         flex-direction: column;
         align-items: center;
         margin-bottom: 2%;
+        margin-left: 0;
+        margin-right: 0;
     }
 
-    /* .LHS, .RHS{
+    .LHS-outer{
         align-items: center;
-    } */
+    }
+
+    .LHS, .RHS{
+        align-items: center;
+    }
     
     .weatherContainer{
         flex-direction: column;
         align-items: center;
+        justify-content: center;
         margin-bottom: 2%;
     }   
 
     .card{
         margin-top: 2%;
+    }
+
+    .smallcard{
+        width: 50vw;
+    }
+
+    .BigWeather{
+        margin-right: 0!important;
+    }
+
+    #searchtitle{
+        text-align: center;
     }
 }
