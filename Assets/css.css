@@ -27,6 +27,7 @@
 
     .LHS-outer{
         align-items: center;
+        width: 100%;
     }
 
     .LHS, .RHS{
@@ -45,7 +46,7 @@
     }
 
     .smallcard{
-        width: 50vw;
+        width: 50vw!important;
     }
 
     .BigWeather{

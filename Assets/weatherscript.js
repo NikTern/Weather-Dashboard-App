@@ -74,7 +74,7 @@ var generateWeather = function(lat, lon){
 
             //Date + Icon div
         var dateicon = document.createElement("div")
-        dateicon.setAttribute("style", "width: 100% ; padding-bottom: 2%")
+        dateicon.setAttribute("style", "width: 100% ; padding-bottom: 1.7% ; display: flex")
         dateicon.classList.add("align-items-center")
         weatherCardBodyBig.appendChild(dateicon)
 
@@ -117,7 +117,7 @@ var generateWeather = function(lat, lon){
         //Construct small weather cards under 'WeatherContainer' div
         var weatherContainer = document.createElement("div")
         weatherContainer.classList.add("weatherContainer")
-        weatherContainer.setAttribute("style", "display: flex ; justify-content: space-evenly ; margin-top: 1%")
+        weatherContainer.setAttribute("style", "display: flex ; justify-content: space-between ; margin-top: 1%")
         RHS.appendChild(weatherContainer)
 
         for (var i=8; i<=40 ; i= i+8){ 
@@ -128,7 +128,7 @@ var generateWeather = function(lat, lon){
             //Create card divs
             var weatherCard = document.createElement("div")
             weatherCard.classList.add("card", "smallcard")
-            weatherCard.setAttribute("style", "margin-right: 1.5%")
+            weatherCard.setAttribute("style", "width: 17.5%")
             weatherContainer.appendChild(weatherCard)
 
             var weatherCardBody = document.createElement("div")
@@ -238,7 +238,7 @@ var generateHistory = function(){
         localStorageKeyNumbers.push(Number(localStorageKeys[i].substring(9)))
     }
 
-    // Add the highest number (most recent) saved city to a list, for all keys - returns list of descending order
+    // Add the highest number (most recent) saved city to a list, for all keys - returns list of cities in descending order (most recent first)
     descendingcities = []
     for (var i = 0 ; localStorageKeyNumbers.length > 0 ; i++){
         //Find the index of the highest key number using the key number list (which is in the same order as the keylist)
@@ -255,7 +255,7 @@ var generateHistory = function(){
     for (var i=0 ; i < descendingcities.length ; i++){
         console.log(localStorage[descendingcities[i]])
         var historicalEl = document.createElement("button")
-        historicalEl.classList.add("btn", "btn-secondary", "bg-gradient")
+        historicalEl.classList.add("btn", "btn-secondary", "bg-gradient", "historybutton")
         historicalEl.setAttribute("style","width: 100% ; height: auto; margin-bottom: 0.5rem")
         historicalEl.textContent = localStorage[descendingcities[i]]
         if (historicalEl.textContent === "Paris 01 Louvre"){
