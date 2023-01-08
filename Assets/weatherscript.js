@@ -166,8 +166,6 @@ var generateWeather = function(lat, lon){
             weatherCardBody.appendChild(weatherinfo)
         
             if (i === 39){
-                console.log("yebud")
-                console.log(data)
                 i = 41
             }
         }  
@@ -228,65 +226,50 @@ var generateHistory = function(){
     var LHS = document.querySelector(".LHS")
     LHS.appendChild(historyEls)
 
-    //CRAZYCODE
-        // retrieve the keys from localStorage
-        const keys = Object.keys(localStorage);
+    //CODE WHICH GETS CITY HISTORY IN ORDER
+    // Get an array of the keys in local storage that start with "SavedCity"
+    var localStorageKeys = Object.keys(localStorage).filter(function(key) {
+        return key.startsWith('SavedCity');
+    });
 
-        // filter the keys to only include "SavedCity" keys
-        const savedCityKeys = keys.filter(key => key.startsWith("SavedCity"));
+    // Get an array of their key numbers
+    localStorageKeyNumbers = []
+    for (var i=0 ; i < localStorageKeys.length; i++){
+        localStorageKeyNumbers.push(Number(localStorageKeys[i].substring(9)))
+    }
 
-        // sort the keys in descending order by their numerical suffix
-        savedCityKeys.sort((a, b) => {
-        const aNum = Number(a.match(/\d+$/)[0]);
-        const bNum = Number(b.match(/\d+$/)[0]);
-        return bNum - aNum;
-        });
-
-        // retrieve the values from localStorage in the sorted order
-        const values = savedCityKeys.map(key => localStorage.getItem(key));
+    // Add the highest number (most recent) saved city to a list, for all keys - returns list of descending order
+    descendingcities = []
+    for (var i = 0 ; localStorageKeyNumbers.length > 0 ; i++){
+        //Find the index of the highest key number using the key number list (which is in the same order as the keylist)
+        maxIndex = localStorageKeyNumbers.indexOf(Math.max.apply(null, localStorageKeyNumbers))
+        //push the corresponding city at that index in the keylist to the keylist to descendingcities list
+        descendingcities.push(localStorageKeys[maxIndex])
+        //remove the number from the key number list
+        localStorageKeyNumbers.splice(maxIndex, 1)
+        //remove the corresponding city from the keylist
+        localStorageKeys.splice(maxIndex, 1)
+    }
 
     //GENERATE ELEMENTS
-        for (var i=0 ; i < values.length ; i++){
-            var historicalEl = document.createElement("button")
-            historicalEl.setAttribute("style","width: 100% ; height: auto; margin-bottom: 0.5rem")
-            historicalEl.textContent = values[i]
-            if (historicalEl.textContent === "Paris 01 Louvre"){
-                historicalEl.textContent = "Palais-Royal"
-            }
-
-            historicalEl.addEventListener("click", function(event){
-                event.preventDefault()
-                getcoords(this.textContent)
-                generateHistory()
-            })
-
-            historyEls.appendChild(historicalEl)            
+    for (var i=0 ; i < descendingcities.length ; i++){
+        console.log(localStorage[descendingcities[i]])
+        var historicalEl = document.createElement("button")
+        historicalEl.classList.add("btn", "btn-secondary", "bg-gradient")
+        historicalEl.setAttribute("style","width: 100% ; height: auto; margin-bottom: 0.5rem")
+        historicalEl.textContent = localStorage[descendingcities[i]]
+        if (historicalEl.textContent === "Paris 01 Louvre"){
+            historicalEl.textContent = "Palais-Royal"
         }
-    
 
-    //append new history elements
-    // for (var i = 0; i < localStorage.length; ++i) {
-    //     // Get the i'th key from localStorage
-    //     var key = localStorage.key(i)
+        historicalEl.addEventListener("click", function(event){
+            event.preventDefault()
+            getcoords(this.textContent)
+            generateHistory()
+        })
 
-    //     //Check if i'th key starts with 'SavedCity'
-    //     if (key.substring(0, 9) === "SavedCity"){
-    //         var historicalEl = document.createElement("button")
-    //         historicalEl.setAttribute("style","width: 100% ; height: auto; margin-bottom: 0.5rem")
-    //         historicalEl.textContent = localStorage[key]
-    //         if (historicalEl.textContent === "Paris 01 Louvre"){
-    //             historicalEl.textContent = "Paris"
-    //         }
-
-    //         historicalEl.addEventListener("click", function(event){
-    //             event.preventDefault()
-    //             getcoords(this.textContent)
-    //             generateHistory()
-    //         })
-
-    //         historyEls.appendChild(historicalEl)
-    //     }
-    // }
+        historyEls.appendChild(historicalEl)            
+    }
 }
 
 //On page load
