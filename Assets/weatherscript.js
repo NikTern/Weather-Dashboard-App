@@ -17,7 +17,7 @@ searchbtn.addEventListener("click", function(event){
 
 //Function which returns latitude and longitude for a given city name using the open weather API
 var getcoords = function(cityname){
-    apiurl = `http://api.openweathermap.org/geo/1.0/direct?q=${cityname}&appid=3c1902a6683a6fc1079fef0612f33630`
+    apiurl = `https://api.openweathermap.org/geo/1.0/direct?q=${cityname}&appid=3c1902a6683a6fc1079fef0612f33630`
     fetch(apiurl)
     .then(function(response){
         return response.json()
@@ -34,7 +34,7 @@ var getcoords = function(cityname){
 
 //Function which gets and displays the weather data for the searched city, given latitude and longitude
 var generateWeather = function(lat, lon){
-    apiurl = `http://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=3c1902a6683a6fc1079fef0612f33630&units=metric`
+    apiurl = `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=3c1902a6683a6fc1079fef0612f33630&units=metric`
     fetch(apiurl)
     .then(function(response){
         return response.json()
@@ -86,7 +86,7 @@ var generateWeather = function(lat, lon){
 
             //Weather icon element
         var icon = document.createElement("img")
-        icon.setAttribute("src", `http://openweathermap.org/img/wn/${data.list[0].weather[0].icon}@2x.png`)
+        icon.setAttribute("src", `https://openweathermap.org/img/wn/${data.list[0].weather[0].icon}@2x.png`)
         icon.setAttribute("style", "width: 3rem ; height: 3rem")
         icon.alt = "weather-icon"
         dateicon.appendChild(icon)
@@ -143,7 +143,7 @@ var generateWeather = function(lat, lon){
 
             //Weather icon element
             var icon = document.createElement("img")
-            icon.setAttribute("src", `http://openweathermap.org/img/wn/${data.list[0].weather[0].icon}@2x.png`)
+            icon.setAttribute("src", `https://openweathermap.org/img/wn/${data.list[0].weather[0].icon}@2x.png`)
             icon.setAttribute("style", "width: 4rem ; height: 4rem")
             icon.alt = "weather-icon"
             weatherCardBody.appendChild(icon)
